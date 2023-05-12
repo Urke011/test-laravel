@@ -48,7 +48,7 @@ Route::fallback(FallbackController::class);
 
 
 //pravljenje autmotski svih route za sve metode u postsControleru
-Route::resource('blog', postsController::class);
+//Route::resource('blog', postsController::class);
 
 
 //route for invoke method
