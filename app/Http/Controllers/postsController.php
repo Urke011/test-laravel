@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class postsController extends Controller
 {
@@ -13,6 +14,8 @@ class postsController extends Controller
      */
     public function index()
     {
+        $post = DB::select("SELECT * FROM posts WHERE id = ?",[1]);
+        dd($post);
         return view('blog.index');
     }
 
