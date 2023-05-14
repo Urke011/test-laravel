@@ -12,4 +12,7 @@ class Post extends Model
     //protected $primaryKey = 'title';
    // protected $timestamps = false;
     //protected $dateTime = 'U';
+    protected $fillable = [
+        'title','excerpt','body','image_path', 'is_published','min_to_read'
+    ];
 }

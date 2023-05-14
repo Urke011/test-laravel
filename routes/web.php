@@ -21,7 +21,7 @@ Route::get('/', function () {
     //dd(config('services.mailgun.domain'));
     return view('welcome');
 });
-*/
+
 //get
 Route::get('/blog', [postsController::class, 'index'])->name('blog.index');
 Route::get('/blog/{id}', [postsController::class, 'show'])->name('blog.show'); //single id
@@ -33,7 +33,17 @@ Route::get('/blog/edit/{id}', [postsController::class, 'edit'])->name('blog.edit
 Route::patch('/blog/{id}', [postsController::class, 'update'])->name('blog.update');
 //delete
 Route::delete('/blog/{id}', [postsController::class, 'destroy'])->name('blog.destroy');
+*/
+Route::prefix('blog')->group(function () {
+    Route::get('/create', [PostsController::class, 'create'])->name('blog.create');
+    Route::get('/', [PostsController::class, 'index'])->name('blog.index');
+    Route::get('/{id}', [PostsController::class, 'show'])->name('blog.show');
 
+    Route::post('/', [PostsController::class, 'store'])->name('blog.store');
+    Route::get('/edit/{id}', [PostsController::class, 'edit'])->name('blog.edit');
+    Route::patch('/{id}', [PostsController::class, 'update'])->name('blog.update');
+    Route::delete('/{id}', [PostsController::class, 'destroy'])->name('blog.destroy');
+});
 //fallbackRoute
 Route::fallback(FallbackController::class);
 
