@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,9 +15,15 @@ class postsController extends Controller
      */
     public function index()
     {
-        $post = DB::select("SELECT * FROM posts WHERE id = ?",[1]);
-        dd($post);
-        return view('blog.index');
+        //$post = DB::select("SELECT * FROM posts WHERE id = ?",[1]);
+        //  $posts = DB::table('posts')->get();
+       // dd($post);
+       // return view('blog.index',compact('posts'));
+        $posts = Post::all();
+        //dd($posts);
+        return view('blog.index',[
+            'posts'=> $posts
+        ]);
     }
 
     /**
@@ -48,7 +55,11 @@ class postsController extends Controller
      */
     public function show($id)
     {
-        return $id;
+        $singlePost = Post::find($id);
+
+        return view('blog.show', [
+            'post' => $singlePost
+        ]);
     }
 
     /**
