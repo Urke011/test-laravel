@@ -15,7 +15,19 @@
         </h1>
         <hr class="border border-1 border-gray-300 mt-10">
     </div>
+        <div class="pb-8">
+            @if($errors->any())
+                <div class="bg-red-500 text-white font-bold rounded-t px-4 py-4">
+                    Something want wrong...
+                </div>
+                <ul class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-4 text-red-700">
+                    @foreach($errors->all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            @endif
 
+        </div>
     <div class="m-auto pt-20">
         <form
             action="{{route('blog.store')}}"

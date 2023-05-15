@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Validator;
 
 class postsController extends Controller
 {
@@ -44,6 +45,15 @@ class postsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' =>  'required|unique:posts|max:255',
+            'excerpt' =>  'required',
+            'body' =>  'required',
+            'image' => [
+                'required', 'mimes:jpg,png,jpeg', 'max:5048'
+            ],
+            'min_to_read' =>  'min:0|max:60',
+        ]);
         //dd($request->all());
         /* first method
         $post = new Post();
@@ -60,7 +70,7 @@ class postsController extends Controller
                'title' =>  $request->title,
                 'excerpt' =>  $request->excerpt,
                 'body' =>  $request->body,
-                'image_path' =>  'temporary',
+                'image_path' =>  $this->storeImg($request),
                 'is_published' =>  $request->is_published === "on",
                 'min_to_read' =>  $request->min_to_read,
             ]);
@@ -116,5 +126,9 @@ class postsController extends Controller
     public function destroy($id)
     {
         //
+    }
+    private function storeImg($request){
+        $newImageName = uniqid() .'-'.$request->title.'.'.$request->image->extension();
+        return $request->image->move(public_path('images'),$newImageName);
     }
 }
