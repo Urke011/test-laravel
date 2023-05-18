@@ -102,7 +102,9 @@ class postsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('blog.edit',[
+            'post'=> Post::where('id',$id)->first()
+        ]);
     }
 
     /**
@@ -114,7 +116,17 @@ class postsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+     // dd($request->all());
+
+        Post::where('id', $id)->update([
+            'title'=> $request->title,
+            'excerpt'=> $request->excerpt,
+            'body'=> $request->body,
+            'image_path'=> $this->storeImg($request),
+            'is_published'=> $request->is_published === 'on' ,
+            'min_to_read'=> $request->min_to_read,
+        ]);
+        return redirect(route('blog.index'));
     }
 
     /**
@@ -125,7 +137,10 @@ class postsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      // dd('test');
+        Post::destroy($id);
+        return redirect(route('blog.index'))->with('message','Post has been deleted.');
+
     }
     private function storeImg($request){
         $newImageName = uniqid() .'-'.$request->title.'.'.$request->image->extension();

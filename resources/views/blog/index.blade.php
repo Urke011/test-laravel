@@ -34,6 +34,17 @@
         </a>
     </div>
 </div>
+@if(session()->has('message'))
+    <div class="mx-auto w-4/5 pb-10">
+        <div class="text-red">
+            Warning
+        </div>
+        <div>
+            {{session()->get('message')}}
+        </div>
+    </div>
+@endif
+
 
 @foreach($posts as $post)
     <div class="w-4/5 mx-auto pb-10">
@@ -53,10 +64,20 @@
                     Made by:
                         <a href=""
                            class="text-green-500 italic hover:text-green-400 hover:border-b-2 border-green-400 pb-3 transition-all">
-                            Dary
+                            Uros
                         </a>
                     op 13-07-2022
                 </span>
+                <a href="{{route('blog.edit',$post->id)}}">Edit</a>
+
+                <form action="{{route('blog.destroy',$post->id)}}"  method="POST")>
+                    @csrf
+                    @method("DELETE")
+                    <button class="pt-3 text-red-500 pr-3" type="submit">
+                        Delete
+                    </button>
+                </form>
+
             </div>
         </div>
     </div>
